@@ -1,0 +1,236 @@
+//Move the catcher with the left and right arrow keys to catch the falling objects. 
+
+/* VARIABLES */
+let catcher, fallingObject, catcher2;
+let height = 400;
+let width = 400;
+let score = 0;
+let catcherImg, fallingObjectImg, powerUpImg;
+let powerUp, powerUpB;
+let probability;
+//let powerUpTime, seconds;
+
+/* PRELOAD LOADS FILES */
+function preload(){
+  catcherImg = loadImage('scooby.png');
+ // catcher2Img = loadImage('scooby2.png');
+  fallingObjectImg = loadImage('scooby snack.jpeg');
+  powerUpImg = loadImage('scoobyPowerUp.jpeg');
+}
+
+/* SETUP RUNS ONCE */
+function setup() {
+  createCanvas(width,height);
+
+  //Create catcher 
+  catcher = createSprite(200,350);
+  catcher.addImage("scooby", catcherImg);
+  catcher.scale = 0.2;
+  catcher.collider = "k";
+  
+  //Create falling object
+  fallingObject = createSprite(100,0);
+  fallingObject.addImage("scoobySnack", fallingObjectImg);
+  fallingObject.scale = 0.1;
+  fallingObject.vel.y = 2;
+
+  // Create powerUp
+  powerUp = createSprite(-100,0);
+  powerUp.addImage(powerUpImg);
+  powerUp.scale = 0.1;
+  powerUp.vel.y = 0;
+  powerUpB = false;
+
+  // Create catcher2
+ // catcher2 = createSprite(-200,-350);
+ // catcher2.addImage("scooby2", catcher2Img);
+ // catcher2.scale = 0.2;
+ // catcher2.collider = "k";
+}
+
+/* DRAW LOOP REPEATS */
+function draw() {
+  background(224,224,224);
+
+
+  // Draw directions to screen
+  fill(0);
+  textSize(12);
+  text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width-100, 20);
+  textSize(20);
+  text("Score: " + score, 10, 30)
+  //If fallingObject reaches bottom, move back to random position at top
+ if (fallingObject.y >= height)
+ {
+    fallingSetup();
+    score--;
+  }
+  
+  // Move catcher
+  if (powerUpB)
+  {
+   if (kb.pressing("left"))
+  {
+     catcher.vel.x = -3;
+  }
+  else if (kb.pressing("right"))
+  {
+    catcher.vel.x = 3;
+  }
+  else if (kb.pressing("down"))
+  {
+    catcher.vel.y = 3;
+  }
+    else if (kb.pressing("up"))
+  {
+    catcher.vel.y = -3;
+  }
+  else 
+  {
+    catcher.vel.x = 0;
+    catcher.vel.y = 0;
+  }
+  }
+    else
+  {
+      if (kb.pressing("left"))
+    {
+       catcher.vel.x = -3;
+    }
+    else if (kb.pressing("right"))
+    {
+      catcher.vel.x = 3;
+    }
+    else 
+    {
+      catcher.vel.x = 0;
+    }
+  }
+  
+  // Stop catcher at edges of screen
+  if (catcher.x < 50)
+  {
+    catcher.x = 50;
+  }
+  else if (catcher.x > 350)
+  {
+    catcher.x = 350;
+  }
+  else if (powerUpB && catcher.y < 50)
+  {
+    catcher.y = 50;
+  }
+  else if (powerUpB && catcher.y > 350)
+  {
+    catcher.y = 350;
+  }
+
+  
+  //text(probability, width/2, height/2);
+
+  
+  //If fallingObject collides with catcher, move back to random position at top
+  if (fallingObject.collides(catcher))
+ {
+   probability = int(random(0,5));
+   if (probability == 2)
+  {
+    powerUp.x = random(width, 0);
+    powerUp.vel.y = random(1,5);
+    powerUp.direction = "down";
+  }
+   fallingSetup();
+   score++;
+  }
+  
+  if (powerUp.collides(catcher))
+   {
+     powerUpB = true;
+     //powerUpTime = int(random(5,10));
+     powerUp.pos = {x: -100, y: 0};
+    // catcher.pos = {x: -200, y: -350};
+    // catcher2.pos = {x: 200, y: 350};
+    // moveCatcher2();
+     //seconds = floor(millis()/1000);
+     //while (powerUpTime - seconds > 0)
+    //{
+    //  fill(255, 0, 0);
+    //  text(powerUpTime - seconds, width/2, height/2);
+    //}
+   // catcher2.pos = {x: -200, y: -350};
+    //catcher.pos = {x: 200, y: 350};
+    }
+  
+  if (score >= 6)
+  {
+    youWin();
+    if (mouseIsPressed)
+    {
+      score = 0;
+      catcher.pos = {x: 200, y: 350};
+      fallingSetup();
+    }
+   }
+ 
+}
+
+function youWin()
+{
+  background(224,224,224);
+  
+  //Draw sprites off of screen
+  catcher.pos = {x: -100, y: -100};
+  if (powerUpB)
+  {
+    powerUp.pos = {x: -150, y: -150};
+  }
+  fallingObject.pos = {x: -50, y: -50};
+
+  //Draw end of game text
+  textSize(50);
+  text("You Win!", width/2 - 100, height/2);
+  textSize(12);
+  text("Click the mouse anywhere to play again.", width/2 - 100, height/2 + 60);
+}
+
+function fallingSetup()
+{
+  fallingObject.y = 0;
+  fallingObject.x = random(width, 0);
+  fallingObject.vel.y = random(1,5);
+  fallingObject.direction = "down";
+}
+
+function moveCatcher2()
+{
+  if (kb.pressing("left"))
+  {
+     catcher2.vel.x = -3;
+  }
+  else if (kb.pressing("right"))
+  {
+    catcher2.vel.x = 3;
+  }
+  else if (kb.pressing("down"))
+  {
+    catcher2.vel.y = 3;
+  }
+    else if (kb.pressing("up"))
+  {
+    catcher2.vel.y = -3;
+  }
+  else 
+  {
+    catcher.vel.x = 0;
+  }
+}
+
+
+
+//function keyPressed() {
+//  if (keyCode === "a") {
+//    value = 255;
+//  } else if (keyCode === "d") {
+ //   value = 0;
+ // }
+//}
