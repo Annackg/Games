@@ -1,0 +1,331 @@
+// MARK: To Be Completed
+
+/* VARIABLES */
+let dog1, dog1Img;
+let screen = 0;
+let playButton, playButtonImg;
+let feedButton, feedButtonImg;
+let bathButton, bathButtonImg;
+let medicineButton, medicineButtonImg;
+let backyardImg;
+let startButton;
+let fallingObject, fallingObjectImg;
+let score = 0;
+let height = 650;
+let width = 1270;
+let playAgain, homeButton, homeButtonImg;
+let dogFood, dogFoodImg;
+let bathSponge, bathSpongeImg;
+let vaccine, vaccineImg;
+/* PRELOAD LOADS FILES */
+function preload(){
+  dog1Img = loadImage('dog1.png');
+  playButtonImg = loadImage("ball.png");
+  feedButtonImg = loadImage("dogBowl.png");
+  bathButtonImg = loadImage("sponge.png");
+  medicineButtonImg = loadImage("treatmentIcon.png");
+  backyardImg = loadImage("backyard.jpg");
+  homeButtonImg = loadImage("homeIcon.png");
+  fallingObjectImg = loadImage("bone.png");
+  dogFoodImg = loadImage("dogTreat.png");
+  bathSpongeImg = loadImage("bathSponge.png");
+  vaccineImg = loadImage("vaccine.png");
+}
+
+/* SETUP RUNS ONCE */
+function setup() {
+  createCanvas(width,height);
+ background("#b0c4de");
+  // Creates dog sprite
+  dog1 = createSprite(width/2,height/2);
+  dog1.addImage("dog1", dog1Img);
+  dog1.scale = 0.5;
+  dog1.collider = "k";
+
+  // Creates buttons
+  playButton = createSprite(width / 2 + 300, height / 2 - 200);
+  playButton.addImage("ball", playButtonImg);
+  playButton.scale = 0.2;
+  feedButton = createSprite(width / 2 - 300, height / 2 - 200);
+  feedButton.addImage("bowl", feedButtonImg);
+  feedButton.scale = 0.2;
+  bathButton = createSprite(width / 2 + 300, height / 2 + 120);
+  bathButton.addImage("sponge", bathButtonImg);
+  bathButton.scale = 0.2;
+  medicineButton = createSprite(width / 2 - 300, height / 2 + 100);
+  medicineButton.addImage("treatment", medicineButtonImg);
+  medicineButton.scale = 0.2;
+  startButton = new Sprite(-200, -200);
+ // startButton.style('font-size', '30px');
+  playAgain = new Sprite(-300, -200);
+  homeButton = createSprite(-250, -200);
+  homeButton.addImage("homeIcon", homeButtonImg);
+  homeButton.scale = 0.15;
+  fallingObject = createSprite(-100,0);
+  fallingObject.addImage("bone", fallingObjectImg);
+  fallingObject.scale = 0.2;
+  fallingObject.vel.y = 0;
+  dogFood = createSprite(-400, -400);
+  dogFood.addImage("food", dogFoodImg);
+  dogFood.scale = 0.2;
+  bathSponge = createSprite(-375, -400);
+  bathSponge.addImage("wash", bathSpongeImg);
+  bathSponge.scale = 0.2;
+  vaccine = createSprite(-355, -400);
+  vaccine.addImage("vaccine", vaccineImg);
+  vaccine.scale = 0.2;
+  
+
+}
+
+/* DRAW LOOP REPEATS */
+function draw() {
+  
+  // Makes buttons interactive
+    playAgain.collider = "s";
+  startButton.collider = "s";
+    homeButton.collider = "s";
+  playButton.collider = "s";
+  feedButton.collider = "s";
+  bathButton.collider = "s";
+  medicineButton.collider = "s";
+  dogFood.collider = "s";
+  // Takes player to different screens based on the icons chosen
+   if (playButton.mouse.presses())
+  {
+    showScreen1();
+    screen = 1;
+  
+  // if (homeButton.mouse.presses())
+  //  {
+  //   showScreen0();
+  //    screen = 0;
+  //  }
+}
+  else if (feedButton.mouse.presses())
+  {
+     showScreen2();
+     screen = 2;
+  //  if (kb.pressing("up"))
+   // {
+   //   dogFood.pos = {x: width/2, y: height/2};
+   // }
+   // if (homeButton.mouse.presses())
+   // {
+   //   showScreen0();
+   //   screen = 0;
+   // }
+  }
+    else if (bathButton.mouse.presses())
+    {
+      showScreen3();
+      screen = 3;
+    //  if (bathSponge.mouse.presses())
+    //  {
+    //    bathSponge.pos = {x: width/2, y: height/2};
+    //  }
+   }
+    else if (medicineButton.mouse.presses())
+    {
+      showScreen4();
+      screen = 4;
+   //   if (vaccine.mouse.presses())
+   //   {
+   //     vaccine.pos = {x: width/2 + 50, y: height/2 + 70};
+   //   }
+    }
+
+  if (startButton.mouse.presses())
+  {
+     startButton.pos = {x: -100, y: -150};
+    fallingObject.pos = {x: 100, y: 0};
+    fallingObject.vel.y = 2;
+    dog1.pos = {x: width/2, y: height/2};
+    textSize(20);
+    text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width - 200, 20);
+  textSize(40);
+  text("Score: " + score, 10, 30)
+   // movement();
+    
+   //  checks whether the score should increase
+   //  if (fallingObject.collides(dog1))
+   //    { 
+   //     fallingSetup();
+   //     score++;
+  //     }
+  //    if (fallingObject.y >= height)
+   //  {
+   //  fallingSetup();
+   //  score--;
+   //  }
+   //   if (score >= 6)
+ // {
+ //   youWin();
+ //   if (playAgain.mouse.presses())
+ //   {
+ //     score = 0;
+ //     dog1.pos = {x: width/2, y: height/2};
+ //     fallingSetup();
+ //   }
+  //  else if (homeButton.mouse.presses())
+  //  {
+  // showScreen0();
+   //   screen = 0;
+   // }
+  }
+   
+
+   
+  
+
+  
+ print(screen);
+}
+
+/* FUNCTIONS */
+// Shows minigame when play button is clicked
+function showScreen1()
+{
+  background(backyardImg);
+  startButton.pos = {x: width/2, y: height/2 + 100};
+  startButton.w = 100;
+  startButton.h = 50;
+  //startButton.style('background-color', '#badcff');
+  startButton.text = "Play";
+  dog1.pos =  {x: -400, y: -400};
+  removeS1Buttons();
+}
+
+function showScreen0()
+{
+  background("#b0c4de");
+  dog1.pos = {x: width/2, y: height/2};
+  playButton.pos = {x: width / 2 + 300, y: height / 2 - 200};
+  feedButton.pos = {x: width / 2 - 300, y: height / 2 - 200};
+  bathButton.pos = {x: width / 2 + 300, y: height / 2 + 120};
+  medicineButton.pos = {x: width / 2 - 300, y: height / 2 + 100};
+}
+
+// Makes the motion of the falling object in the minigame random
+function fallingSetup()
+{
+  fallingObject.y = 0;
+  fallingObject.x = random(width, 0);
+  fallingObject.vel.y = random(1,5);
+  fallingObject.direction = "down";
+}
+
+// Shows that the user won the minigame
+function youWin()
+{
+  background(224,224,224);
+  
+  //Draw sprites off of screen
+  dog1.pos = {x: -100, y: -100};
+  fallingObject.pos = {x: -50, y: -50};
+
+  //Draw end of game text
+  textSize(100);
+  text("You Win!", width/2, height/2);
+  playAgain.pos = {x: width/2 - 100, y: height/2 + 100};
+  playAgain.w = 100;
+  playAgain.h = 50;
+  playAgain.color = "#badcff";
+  playAgain.text = "Restart";
+  homeButton.pos = {x: width/2 + 100, y: height/2 + 100};
+  
+}
+
+function showScreen2()
+{
+      background("#23297a");
+      removeS1Buttons();
+      dogFood.pos = {x: width/2, y: height/2 + 220}
+      homeButton.pos = {x: width - 200, y: height + 100};
+}
+
+function showScreen3()
+{
+  background("#b2ec5d");
+  removeS1Buttons();
+  bathSponge.pos = {x: width / 2 + 300, y: height / 2 + 200};
+  homeButton.pos = {x: width - 200, y: height + 100};
+}
+
+function removeS1Buttons()
+{
+  playButton.pos = {x: -150, y: -150};
+  feedButton.pos =  {x: -200, y: -200};
+  bathButton.pos =  {x: -250, y: -250};
+  medicineButton.pos =  {x: -300, y: -300};
+}
+
+function showScreen4()
+{
+  background("#ff7f50");
+  removeS1Buttons();
+  vaccine.pos = {x: width / 2 + 300, y: height / 2 + 200};
+  homeButton.pos = {x: width - 200, y: height + 100};
+}
+
+function movement()
+{
+  // allows player to move dog
+  // keeps dog inside bounds
+     if (kb.pressing("left"))
+    {
+      dog1.vel.x = -3;
+    }
+    else if (kb.pressing("right"))
+    {
+      dog1.vel.x = 3;
+    }
+    else 
+    {
+      dog1.vel.x = 0;
+    }
+}
+
+
+//function minigame()
+//{
+// if (startButton.mouse.presses())
+ // {
+ //    startButton.pos = {x: -100, y: -150};
+ //   fallingObject.pos = {x: 100, y: 0};
+ //   fallingObject.vel.y = 2;
+ //   dog1.pos = {x: width/2, y: height/2};
+ //   textSize(20);
+ //   text("Move the \ncatcher with the \nleft and right \narrow keys to \ncatch the falling \nobjects.", width - 200, 20);
+ // textSize(40);
+ // text("Score: " + score, 10, 30)
+  //  movement();
+    
+   //  checks whether the score should increase
+   //  if (fallingObject.collides(dog1))
+   //    { 
+   //     fallingSetup();
+    //    score++;
+   //    }
+   //   if (fallingObject.y >= height)
+   //  {
+   //   fallingSetup();
+   //   score--;
+   //  }
+   //   if (score >= 6)
+ // {
+   // youWin();
+  //  if (playAgain.mouse.presses())
+  //  {
+  //    score = 0;
+  //    dog1.pos = {x: width/2, y: height/2};
+  //    fallingSetup();
+  //  }
+  //  else if (homeButton.mouse.presses())
+  //  {
+   //  showScreen0();
+  //    screen = 0;
+    //}
+ // }
+  // }
+//}
