@@ -1,0 +1,71 @@
+
+/* VARIABLES */
+let eyeWidth = 40;
+let eyeHeight = 40;
+let pupilWidth = 22;
+let pupilHeight = 25;
+
+
+/* SETUP RUNS ONCE */
+function setup() {
+  //sets the screen size
+  createCanvas(400,400); 
+
+  //sets the background color
+  background(176, 196, 222); 
+}
+
+/* DRAW LOOP REPEATS */
+function draw() {
+  angleMode(DEGREES);
+  rectMode(CENTER);
+
+  //Face
+  fill('#b86d29');
+  ellipse(width/2, height/2, 175, 200);
+
+  //Ears
+  fill('#b86d29');
+  quad(140, 130, 160, 145, 140, 190, 100, 190); //left
+  quad(260, 130, 300, 190, 260, 190, 245, 150); //right
+
+  //Eyes
+  if (mouseIsPressed)
+  {
+    //Eyes closed
+    fill(0,0,0);
+    ellipse(170, 170, eyeWidth, eyeHeight/8);
+    ellipse(230, 170, eyeWidth, eyeHeight/8);
+    //Mouth
+  fill("red");
+  arc(200, 230, 30, 50, 0, 180);
+  }
+  else 
+  {
+    //Eyes open
+   fill("blue");
+  ellipse(170, 170, eyeWidth, eyeHeight);
+  ellipse(230, 170, eyeWidth, eyeHeight); 
+    //Pupils
+  fill(0,0,0);
+  ellipse(170, 170, pupilWidth, pupilHeight);
+  ellipse(230, 170, pupilWidth, pupilHeight);
+    //Mouth
+  fill("#d1908e");
+  arc(200, 230, 50, 50, 0, 180);
+  }
+
+  //nose
+  fill('black');
+  rectMode(CENTER);
+  rect(200, 205, 30, 25, 5);
+
+  //Text
+  textSize(20);
+  text("Be the person your dog thinks you are \n- C.J. Frick",10,20);
+  
+  //Directions for mouse press
+  fill(0,0,0);
+  textSize(15);
+  text("Click to see me blink \nand stick my tongue out.", 230, 350);
+}
